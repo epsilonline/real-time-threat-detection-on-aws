@@ -42,7 +42,7 @@ resource "aws_instance" "dummy_nids" {
           echo "ExecStart=/root/aws-gateway-load-balancer-tunnel-handler/gwlbtun -c /root/aws-gateway-load-balancer-tunnel-handler/example-scripts/create-passthrough.sh -p 80" >> /usr/lib/systemd/system/gwlbtun.service
           echo "Restart=always" >> /usr/lib/systemd/system/gwlbtun.service
           echo "RestartSec=5s" >> /usr/lib/systemd/system/gwlbtun.service
-          echo "[Install]" > /usr/lib/systemd/system/gwlbtun.service
+          echo "[Install]" >> /usr/lib/systemd/system/gwlbtun.service
           echo "WantedBy=multi-user.target" >> /usr/lib/systemd/system/gwlbtun.service
 
           systemctl daemon-reload
