@@ -106,3 +106,14 @@ resource "aws_security_group_rule" "https_egress" {
 
   description = "Allow download of packages"
 }
+
+resource "aws_security_group_rule" "https_egress" {
+  type              = "egress"
+  cidr_blocks       = ["0.0.0.0/0"]
+  protocol          = "UDP"
+  to_port           = 0
+  from_port         = 65535
+  security_group_id = aws_security_group.dummy_nids.id
+
+  description = "Allow egress traffic to gwlb"
+}
