@@ -21,6 +21,11 @@ variable "region" {
   default = "eu-west-1"
 }
 
+variable "extra_ec2_tags" {
+  type = map(string)
+}
+
+
 #######################################
 # VPC
 #######################################

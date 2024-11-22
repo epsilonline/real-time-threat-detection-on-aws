@@ -71,7 +71,7 @@ EOF
     iops                  = 3000
   }
 
-  tags = merge({ "Name" : "${var.resource_name_prefix}-wazuh-surricata" })
+  tags = merge({ "Name" : "${var.resource_name_prefix}-wazuh-surricata" }, var.extra_ec2_tags)
 
   lifecycle {
     ignore_changes = [ami]

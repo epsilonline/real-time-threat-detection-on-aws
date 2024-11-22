@@ -3,6 +3,10 @@ project_name         = "real-time-threat-detection-on-aws"
 environment          = "demo"
 region               = "eu-west-1"
 
+extra_ec2_tags = {
+  "Schedule" = "it-office-hours"
+}
+
 #######################################
 # VPC
 #######################################

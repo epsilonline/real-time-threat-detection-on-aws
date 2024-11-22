@@ -73,7 +73,7 @@ resource "aws_instance" "dummy_nids" {
     iops                  = 3000
   }
 
-  tags = merge({ "Name" : "${var.resource_name_prefix}-dummy-nids" })
+  tags = merge({ "Name" : "${var.resource_name_prefix}-dummy-nids" }, var.extra_ec2_tags)
 
   lifecycle {
     ignore_changes = [ami]
