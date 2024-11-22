@@ -107,7 +107,7 @@ resource "aws_security_group_rule" "https_egress" {
   description = "Allow download of packages"
 }
 
-resource "aws_security_group_rule" "https_egress" {
+resource "aws_security_group_rule" "udp_egress" {
   type              = "egress"
   cidr_blocks       = ["0.0.0.0/0"]
   protocol          = "UDP"
