@@ -24,6 +24,20 @@ resource "aws_instance" "dummy_nids" {
 
   user_data = base64encode(
     <<EOF
+        Content-Type: multipart/mixed; boundary="//"
+        MIME-Version: 1.0
+        
+        --//
+        Content-Type: text/cloud-config; charset="us-ascii"
+        MIME-Version: 1.0
+        Content-Transfer-Encoding: 7bit
+        Content-Disposition: attachment;
+        filename="cloud-config.txt"
+        
+        #cloud-config
+        cloud_final_modules:
+        - [scripts-user, always]
+        --//
         #!/bin/bash -ex
           yum -y groupinstall "Development Tools"
           yum -y install cmake3
@@ -49,6 +63,7 @@ resource "aws_instance" "dummy_nids" {
           systemctl enable --now --no-block gwlbtun.service
           systemctl start gwlbtun.service
           echo
+          --//--
         EOF
   )
 
@@ -68,9 +83,9 @@ resource "aws_instance" "dummy_nids" {
 
 
 resource "aws_security_group" "dummy_nids" {
-  description = "Paloalto security group"
+  description = "Dummy NIDS security group"
   vpc_id      = module.security_vpc.vpc_id
-  name        = "${var.resource_name_prefix}-paloalto-data-traffic-sg"
+  name        = "${var.resource_name_prefix}-dummy-nids"
 }
 
 resource "aws_security_group_rule" "data_ingress_udp" {
@@ -95,7 +110,6 @@ resource "aws_security_group_rule" "data_ingress_tcp" {
   description = "Allow healthcheck from gwlb"
 }
 
-
 resource "aws_security_group_rule" "https_egress" {
   type              = "egress"
   cidr_blocks       = ["0.0.0.0/0"]
@@ -104,15 +118,15 @@ resource "aws_security_group_rule" "https_egress" {
   from_port         = 443
   security_group_id = aws_security_group.dummy_nids.id
 
-  description = "Allow download of packages"
+  description = "Allow packages download"
 }
 
 resource "aws_security_group_rule" "udp_egress" {
   type              = "egress"
   cidr_blocks       = ["0.0.0.0/0"]
   protocol          = "UDP"
-  to_port           = 0
-  from_port         = 65535
+  to_port           = 65535
+  from_port         = 0
   security_group_id = aws_security_group.dummy_nids.id
 
   description = "Allow egress traffic to gwlb"

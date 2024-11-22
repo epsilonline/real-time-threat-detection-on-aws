@@ -2,7 +2,7 @@ module "main_vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.16.0"
 
-  name = local.security_vpc_name
+  name = local.main_vpc_name
   cidr = var.main_vpc_cfg.cidr
 
   azs             = var.main_vpc_cfg.azs
@@ -136,7 +136,7 @@ resource "aws_vpc_endpoint" "main_vpc_inspection_endpoint" {
   vpc_endpoint_type   = aws_vpc_endpoint_service.gwlb.service_type
   private_dns_enabled = false
 
-  subnet_ids = [module.main_vpc.private_subnets[0]]
+  subnet_ids = [module.main_vpc.public_subnets[0]]
   tags = {
     Name    = "${var.resource_name_prefix}-NIDS-inspection"
     VpcName = local.main_vpc_name

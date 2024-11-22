@@ -12,7 +12,7 @@ resource "aws_instance" "monitored" {
   monitoring              = true
   source_dest_check       = true
 
-  #   vpc_security_group_ids = [aws_security_group.dummy_nids.id]
+  vpc_security_group_ids = [aws_security_group.monitored_instances.id]
 
 
   subnet_id = element(module.main_vpc.private_subnets, 0) #Same subnet as paloalto instance
@@ -37,3 +37,20 @@ resource "aws_instance" "monitored" {
   }
 }
 
+
+resource "aws_security_group" "monitored_instances" {
+  description = "Security group for monitered instances"
+  vpc_id      = module.main_vpc.vpc_id
+  name        = "${var.resource_name_prefix}-monitored-instances"
+}
+
+resource "aws_security_group_rule" "monitored_egress" {
+  type              = "egress"
+  cidr_blocks       = ["0.0.0.0/0"]
+  protocol          = "-1"
+  to_port           = 65535
+  from_port         = 0
+  security_group_id = aws_security_group.monitored_instances.id
+
+  description = "Allow all egress"
+}
