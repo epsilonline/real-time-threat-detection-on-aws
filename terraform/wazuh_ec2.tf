@@ -60,12 +60,13 @@ cd /root
 git clone https://github.com/wazuh/wazuh-docker.git -b v4.9.2
 cd wazuh-docker/single-node/
 docker-compose -f generate-indexer-certs.yml run --rm generator
-# docker-compose up -d 
+docker-compose up -d 
 --//--
 EOF
   )
 
   root_block_device {
+    volume_size           = 20
     delete_on_termination = true
     volume_type           = "gp3"
     iops                  = 3000
@@ -94,4 +95,26 @@ resource "aws_security_group_rule" "wazuh_egress" {
   security_group_id = aws_security_group.wazuh_instance.id
 
   description = "Allow all egress"
+}
+
+resource "aws_security_group_rule" "wazuh_agent_ingress" {
+  type                     = "ingress"
+  protocol                 = "TCP"
+  from_port                = 1514
+  to_port                  = 1516
+  security_group_id        = aws_security_group.wazuh_instance.id
+  source_security_group_id = aws_security_group.monitored_instances.id
+
+  description = "Allow agent connection from monitored instances"
+}
+
+resource "aws_security_group_rule" "wazuh_syslog_ingress" {
+  type                     = "ingress"
+  protocol                 = "-1"
+  from_port                = 514
+  to_port                  = 514
+  security_group_id        = aws_security_group.wazuh_instance.id
+  source_security_group_id = aws_security_group.monitored_instances.id
+
+  description = "Allow syslog collector from monitored instancesx"
 }
