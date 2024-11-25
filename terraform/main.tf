@@ -5,11 +5,14 @@ terraform {
       source  = "hashicorp/aws"
       version = "5.76.0"
     }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.3"
+    }
   }
 
-  backend "http" {
-    
-  }
+  backend "http" {}
 }
 
 provider "aws" {
@@ -24,11 +27,21 @@ provider "aws" {
   }
 }
 
+######################################
+# Local variables
+######################################
+
 locals {
   security_vpc_name = "${var.resource_name_prefix}-security-vpc"
   main_vpc_name     = "${var.resource_name_prefix}-main-vpc"
   protected_subnets = [for subnet in aws_subnet.protected_subnet : subnet]
+  trail_name = "${var.resource_name_prefix}-wazuh-trail"
+  wazuh_bucket_name = "${var.resource_name_prefix}-wazuh-${random_string.random.result}"
 }
+
+######################################
+# Data
+######################################
 
 data "aws_ami" "al2023" {
   most_recent = true
@@ -40,4 +53,20 @@ data "aws_ami" "al2023" {
 
 
   owners = ["amazon"]
+}
+
+data "aws_caller_identity" "current" {}
+
+data "aws_partition" "current" {}
+
+data "aws_region" "current" {}
+
+######################################
+# Random string
+######################################
+
+resource "random_string" "random" {
+  length  = 16
+  special = false
+  upper   = false
 }
