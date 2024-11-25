@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "wazuh" {
   bucket = local.wazuh_bucket_name
 
   tags = {
-    Name        = "${var.resource_name_prefix}-${random_string.random.result}"
+    Name = "${var.resource_name_prefix}-${random_string.random.result}"
   }
 }
 
