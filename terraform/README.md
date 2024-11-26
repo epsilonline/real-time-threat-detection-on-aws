@@ -27,7 +27,7 @@
 
 | Name | Type |
 |------|------|
-| [aws_cloudtrail.example](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/cloudtrail) | resource |
+| [aws_cloudtrail.trail](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/cloudtrail) | resource |
 | [aws_eip.main](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/eip) | resource |
 | [aws_guardduty_detector.this](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/guardduty_detector) | resource |
 | [aws_iam_instance_profile.ec2_ssm_profile](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_instance_profile) | resource |

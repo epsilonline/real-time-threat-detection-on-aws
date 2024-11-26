@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "allow_trail_access" {
     }
 
     actions   = ["s3:PutObject"]
-    resources = ["${aws_s3_bucket.wazuh.arn}/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
+    resources = ["${aws_s3_bucket.wazuh.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
 
     condition {
       test     = "StringEquals"
