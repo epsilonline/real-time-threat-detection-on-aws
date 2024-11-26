@@ -4,7 +4,7 @@
 resource "aws_instance" "dummy_nids" {
 
   ami                     = data.aws_ami.al2023.id
-  iam_instance_profile    = aws_iam_role.iam_ec2_role.name
+  iam_instance_profile    = aws_iam_role.ec2_gwlbtun.name
   instance_type           = "t3.micro"
   key_name                = aws_key_pair.main.key_name
   disable_api_termination = true
@@ -26,14 +26,14 @@ resource "aws_instance" "dummy_nids" {
     <<EOF
         Content-Type: multipart/mixed; boundary="//"
         MIME-Version: 1.0
-        
+
         --//
         Content-Type: text/cloud-config; charset="us-ascii"
         MIME-Version: 1.0
         Content-Transfer-Encoding: 7bit
         Content-Disposition: attachment;
         filename="cloud-config.txt"
-        
+
         #cloud-config
         cloud_final_modules:
         - [scripts-user, always]
