@@ -15,7 +15,7 @@ resource "aws_instance" "monitored" {
   vpc_security_group_ids = [aws_security_group.monitored_instances.id]
 
 
-  subnet_id = element(module.main_vpc.private_subnets, 0) #Same subnet as paloalto instance
+  subnet_id = element(module.main_vpc.private_subnets, 0)
 
   metadata_options {
     http_endpoint = "enabled"

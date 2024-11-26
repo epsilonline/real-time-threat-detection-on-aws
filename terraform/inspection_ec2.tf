@@ -15,7 +15,7 @@ resource "aws_instance" "dummy_nids" {
   vpc_security_group_ids = [aws_security_group.dummy_nids.id]
 
 
-  subnet_id = element(module.security_vpc.private_subnets, 0) #Same subnet as paloalto instance
+  subnet_id = element(module.security_vpc.private_subnets, 0)
 
   metadata_options {
     http_endpoint = "enabled"

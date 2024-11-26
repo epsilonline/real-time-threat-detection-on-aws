@@ -3,7 +3,7 @@
 ######################################
 resource "aws_instance" "wazuh" {
   ami                     = data.aws_ami.al2023.id
-  iam_instance_profile    = aws_iam_role.iam_ec2_role.name
+  iam_instance_profile    = aws_iam_role.ec2_wazuh.name
   instance_type           = "t3.large"
   key_name                = aws_key_pair.main.key_name
   disable_api_termination = true
@@ -14,7 +14,7 @@ resource "aws_instance" "wazuh" {
   vpc_security_group_ids = [aws_security_group.wazuh_instance.id]
 
 
-  subnet_id = element(module.main_vpc.private_subnets, 0) #Same subnet as paloalto instance
+  subnet_id = element(module.main_vpc.private_subnets, 0)
 
   metadata_options {
     http_endpoint = "enabled"
