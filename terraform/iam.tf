@@ -113,6 +113,34 @@ resource "aws_iam_instance_profile" "ec2_gwlbtun" {
   role = aws_iam_role.ec2_gwlbtun.name
 }
 
+resource "aws_iam_policy" "gwlbtub_s3" {
+  name = "${var.resource_name_prefix}-gwlbtun-s3"
+
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Sid" : "GetS3Logs",
+          "Effect" : "Allow",
+          "Action" : [
+            "s3:GetObject",
+            "s3:ListBucket"
+          ],
+          "Resource" : [
+            "${aws_s3_bucket.gwlbtun.arn}/*",
+            aws_s3_bucket.gwlbtun.arn
+          ]
+        }
+      ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "gwlbtub_s3" {
+  role       = aws_iam_role.ec2_gwlbtun.name
+  policy_arn = aws_iam_policy.gwlbtub_s3.arn
+}
+
 resource "aws_iam_role_policy_attachment" "iam_policy_gwlbtub_ec2_ssm_policy" {
   role       = aws_iam_role.ec2_gwlbtun.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"

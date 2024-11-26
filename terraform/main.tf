@@ -32,11 +32,13 @@ provider "aws" {
 ######################################
 
 locals {
-  security_vpc_name = "${var.resource_name_prefix}-security-vpc"
-  main_vpc_name     = "${var.resource_name_prefix}-main-vpc"
-  protected_subnets = [for subnet in aws_subnet.protected_subnet : subnet]
-  trail_name        = "${var.resource_name_prefix}-wazuh-trail"
-  wazuh_bucket_name = "${var.resource_name_prefix}-wazuh-${random_string.random.result}"
+  security_vpc_name    = "${var.resource_name_prefix}-security-vpc"
+  main_vpc_name        = "${var.resource_name_prefix}-main-vpc"
+  protected_subnets    = [for subnet in aws_subnet.protected_subnet : subnet]
+  trail_name           = "${var.resource_name_prefix}-wazuh-trail"
+  wazuh_bucket_name    = "${var.resource_name_prefix}-wazuh-${random_string.random.result}"
+  gwlbtun_bucket_name  = "${var.resource_name_prefix}-gwlb-${random_string.random.result}"
+  gwlbtub_scripts_path = "${path.module}/../scripts"
 }
 
 ######################################

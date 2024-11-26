@@ -33,10 +33,12 @@
 | [aws_iam_instance_profile.ec2_gwlbtun](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_instance_profile) | resource |
 | [aws_iam_instance_profile.ec2_wazuh](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_instance_profile) | resource |
 | [aws_iam_instance_profile.iam_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_instance_profile) | resource |
+| [aws_iam_policy.gwlbtub_s3](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.wazuh_s3](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_policy) | resource |
 | [aws_iam_role.ec2_gwlbtun](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role) | resource |
 | [aws_iam_role.ec2_wazuh](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role) | resource |
 | [aws_iam_role.iam_ec2_role](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.gwlbtub_s3](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.iam_policy_ec2_ssm_policy](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.iam_policy_gwlbtub_ec2_ssm_policy](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.iam_policy_wazuh_ec2_ssm_policy](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role_policy_attachment) | resource |
@@ -60,8 +62,10 @@
 | [aws_route_table.protected_subnets](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/route_table) | resource |
 | [aws_route_table_association.inbound_inspection](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/route_table_association) | resource |
 | [aws_route_table_association.rt_association](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/route_table_association) | resource |
+| [aws_s3_bucket.gwlbtun](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.wazuh](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_policy.allow_trail_access](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket_policy) | resource |
+| [aws_s3_object.gwlbtub_scripts](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_object) | resource |
 | [aws_security_group.dummy_nids](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group) | resource |
 | [aws_security_group.monitored_instances](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group) | resource |
 | [aws_security_group.wazuh_instance](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group) | resource |

@@ -49,6 +49,9 @@ resource "aws_instance" "dummy_nids" {
           cmake3 .
           make
 
+          aws s3 sync s3://${aws_s3_bucket.gwlbtun.id}/ example-scripts/
+          chmod +x -R example-scripts/*.sh
+
           echo "[Unit]" > /usr/lib/systemd/system/gwlbtun.service
           echo "Description=AWS GWLB Tunnel Handler" >> /usr/lib/systemd/system/gwlbtun.service
           echo "" >> /usr/lib/systemd/system/gwlbtun.service

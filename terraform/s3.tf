@@ -59,3 +59,23 @@ resource "aws_s3_bucket_policy" "allow_trail_access" {
   policy = data.aws_iam_policy_document.allow_trail_access.json
 }
 
+######################################
+# GWLBTUN script bucket
+######################################
+
+resource "aws_s3_bucket" "gwlbtun" {
+  bucket = local.gwlbtun_bucket_name
+
+  tags = {
+    Name = "${var.resource_name_prefix}-${random_string.random.result}"
+  }
+}
+
+resource "aws_s3_object" "gwlbtub_scripts" {
+  for_each = fileset(local.gwlbtub_scripts_path, "*.sh")
+  bucket   = aws_s3_bucket.gwlbtun.id
+  key      = each.value
+  source   = "${local.gwlbtub_scripts_path}/${each.value}"
+
+  etag = filemd5("${local.gwlbtub_scripts_path}/${each.value}")
+}
