@@ -93,6 +93,40 @@ resource "aws_instance" "ids" {
           docker-compose -f generate-indexer-certs.yml run --rm generator
           docker-compose up -d
 
+          ######################################
+          # Suricata
+          ######################################
+          yum install -y pcre2-devel libyaml-devel jansson-devel libpcap-devel rustc cargo
+          wget -O suricata.tar.gz https://www.openinfosecfoundation.org/download/suricata-7.0.7.tar.gz
+          tar xzvf suricata.tar.gz -C suricata
+          cd suricata
+          ./configure
+          make
+          make install
+          cd /root
+          mkdir -p /etc/suricata/
+          mv suricata/suricata.yaml /etc/suricata/suricata.yaml
+          mkdir /var/log/suricata/
+
+          cd /tmp/ && curl -LO https://rules.emergingthreats.net/open/suricata-6.0.8/emerging.rules.tar.gz
+          sudo tar -xvzf emerging.rules.tar.gz && sudo mkdir /etc/suricata/rules && sudo mv rules/*.rules /etc/suricata/rules/
+          sudo chmod 640 /etc/suricata/rules/*.rules
+
+          echo "[Unit]" > /usr/lib/systemd/system/suricata.service
+          echo "Description=Suricata" >> /usr/lib/systemd/system/suricata.service
+          echo "" >> /usr/lib/systemd/system/suricata.service
+          echo "[Service]" >> /usr/lib/systemd/system/suricata.service
+          echo "ExecStart=/usr/local/bin/suricata -i ens5 -c /etc/suricata/suricata.yaml" >>
+          echo "Restart=always" >> /usr/lib/systemd/system/suricata.service
+          echo "RestartSec=5s" >> /usr/lib/systemd/system/suricata.service
+          echo "[Install]" >> /usr/lib/systemd/system/suricata.service
+          echo "WantedBy=multi-user.target" >> /usr/lib/systemd/system/suricata.service
+
+          systemctl daemon-reload
+          systemctl enable --now --no-block suricata.service
+          systemctl start suricata.service
+
+
           echo
           --//--
         EOF
