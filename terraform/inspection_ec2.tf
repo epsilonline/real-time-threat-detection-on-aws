@@ -5,7 +5,7 @@ resource "aws_instance" "dummy_nids" {
 
   ami                     = data.aws_ami.al2023.id
   iam_instance_profile    = aws_iam_role.ec2_gwlbtun.name
-  instance_type           = "t3.micro"
+  instance_type           = "t3.large"
   key_name                = aws_key_pair.main.key_name
   disable_api_termination = true
   ebs_optimized           = true
@@ -39,6 +39,11 @@ resource "aws_instance" "dummy_nids" {
         - [scripts-user, always]
         --//
         #!/bin/bash -ex
+
+          ######################################
+          # GWLB Tun
+          ######################################
+
           yum -y groupinstall "Development Tools"
           yum -y install cmake3
           yum -y install tc || true
@@ -65,6 +70,29 @@ resource "aws_instance" "dummy_nids" {
           systemctl daemon-reload
           systemctl enable --now --no-block gwlbtun.service
           systemctl start gwlbtun.service
+
+          ######################################
+          # Wazuh
+          ######################################
+
+          # install docker
+          yum update
+          yum install -y docker git
+
+          # Install docker-compose
+          curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+
+          systemctl enable docker
+          systemctl start docker
+
+          # start wazuh
+          cd /root
+          git clone https://github.com/wazuh/wazuh-docker.git -b v4.9.2
+          cd wazuh-docker/single-node/
+          docker-compose -f generate-indexer-certs.yml run --rm generator
+          docker-compose up -d
+
           echo
           --//--
         EOF
@@ -133,4 +161,20 @@ resource "aws_security_group_rule" "udp_egress" {
   security_group_id = aws_security_group.dummy_nids.id
 
   description = "Allow egress traffic to gwlb"
+}
+
+
+resource "aws_security_group_rule" "wazuh_agent_from_nlb_ingress" {
+  for_each = toset(local.wazuh_ports)
+
+  type     = "ingress"
+  protocol = "TCP"
+
+  from_port                = each.key
+  to_port                  = each.key
+  security_group_id        = aws_security_group.dummy_nids.id
+  source_security_group_id = aws_security_group.ids_nlb.id
+
+
+  description = "Allow connection from nlb on wazuh agent ports"
 }

@@ -39,6 +39,7 @@ locals {
   wazuh_bucket_name    = "${var.resource_name_prefix}-wazuh-${random_string.random.result}"
   gwlbtun_bucket_name  = "${var.resource_name_prefix}-gwlb-${random_string.random.result}"
   gwlbtub_scripts_path = "${path.module}/../scripts"
+  wazuh_ports          = ["1514", "1515", "1516", "514"]
 }
 
 ######################################

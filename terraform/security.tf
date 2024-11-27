@@ -1,4 +1,6 @@
-# Enable security hub
+######################################
+# Enable Security Hub
+######################################
 resource "aws_securityhub_account" "account" {}
 
 ######################################
@@ -23,6 +25,26 @@ resource "aws_guardduty_detector" "this" {
   }
 }
 
+# resource "aws_guardduty_malware_protection_plan" "example" {
+#   role = aws_iam_role.example.arn
+
+#   protected_resource {
+#     s3_bucket {
+#       bucket_name     = aws_s3_bucket.example.id
+#       object_prefixes = ["example1", "example2"]
+#     }
+#   }
+
+#   actions {
+#     tagging {
+#       status = "ENABLED"
+#     }
+#   }
+
+#   tags = {
+#     "Name" = "example"
+#   }
+# }
 
 ######################################
 # AWS Inspector

@@ -14,6 +14,10 @@ resource "aws_route53_record" "wazuh_host" {
   zone_id = aws_route53_zone.private_zone.zone_id
   name    = "wazuh.${var.resource_name_prefix}.internal"
   type    = "A"
-  ttl     = "30"
-  records = [aws_instance.wazuh.private_ip]
+
+  alias {
+    name                   = aws_vpc_endpoint.main_vpc_ids_endpoint.dns_entry[0].dns_name
+    zone_id                = aws_vpc_endpoint.main_vpc_ids_endpoint.dns_entry[0].hosted_zone_id
+    evaluate_target_health = true
+  }
 }

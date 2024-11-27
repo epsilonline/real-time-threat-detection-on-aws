@@ -145,3 +145,9 @@ resource "aws_iam_role_policy_attachment" "iam_policy_gwlbtub_ec2_ssm_policy" {
   role       = aws_iam_role.ec2_gwlbtun.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
+
+
+resource "aws_iam_role_policy_attachment" "ids_wazuh_s3" {
+  role       = aws_iam_role.ec2_gwlbtun.name
+  policy_arn = aws_iam_policy.wazuh_s3.arn
+}
