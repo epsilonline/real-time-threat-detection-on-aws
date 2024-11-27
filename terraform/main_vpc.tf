@@ -160,7 +160,7 @@ resource "aws_vpc_endpoint" "main_vpc_hids_endpoint" {
   vpc_endpoint_type   = aws_vpc_endpoint_service.hids.service_type
   private_dns_enabled = false
 
-  subnet_ids = [module.main_vpc.public_subnets[0]]
+  subnet_ids = [module.main_vpc.private_subnets[0]]
   tags = {
     Name    = "${var.resource_name_prefix}-HIDS-inspection"
     VpcName = local.main_vpc_name
