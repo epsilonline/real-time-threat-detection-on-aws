@@ -54,3 +54,19 @@ resource "aws_inspector2_enabler" "this" {
   account_ids    = [data.aws_caller_identity.current.account_id]
   resource_types = ["EC2", "ECR", "LAMBDA", "LAMBDA_CODE"]
 }
+
+######################################
+# Inspector
+######################################
+resource "aws_ssm_association" "inspector_install" {
+  name = "AmazonInspector-ManageAWSAgent"
+
+  parameters = {
+    Operation = "Install"
+  }
+
+  targets {
+    key    = "InstanceIds"
+    values = aws_instance.monitored[*].id
+  }
+}
