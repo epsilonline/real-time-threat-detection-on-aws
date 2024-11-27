@@ -2,12 +2,17 @@
 # Wazuh S3 bucket
 ######################################
 
-resource "aws_s3_bucket" "wazuh" {
+resource "aws_s3_bucket" "wazuh_cloudtrail" {
   bucket = local.wazuh_bucket_name
 
   tags = {
     Name = "${var.resource_name_prefix}-${random_string.random.result}"
   }
+}
+
+moved {
+  to   = aws_s3_bucket.wazuh_cloudtrail
+  from = aws_s3_bucket.wazuh
 }
 
 data "aws_iam_policy_document" "allow_trail_access" {
@@ -21,7 +26,7 @@ data "aws_iam_policy_document" "allow_trail_access" {
     }
 
     actions   = ["s3:GetBucketAcl"]
-    resources = [aws_s3_bucket.wazuh.arn]
+    resources = [aws_s3_bucket.wazuh_cloudtrail.arn]
     condition {
       test     = "StringEquals"
       variable = "aws:SourceArn"
@@ -39,7 +44,7 @@ data "aws_iam_policy_document" "allow_trail_access" {
     }
 
     actions   = ["s3:PutObject"]
-    resources = ["${aws_s3_bucket.wazuh.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
+    resources = ["${aws_s3_bucket.wazuh_cloudtrail.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"]
 
     condition {
       test     = "StringEquals"
@@ -55,7 +60,7 @@ data "aws_iam_policy_document" "allow_trail_access" {
 }
 
 resource "aws_s3_bucket_policy" "allow_trail_access" {
-  bucket = aws_s3_bucket.wazuh.id
+  bucket = aws_s3_bucket.wazuh_cloudtrail.id
   policy = data.aws_iam_policy_document.allow_trail_access.json
 }
 

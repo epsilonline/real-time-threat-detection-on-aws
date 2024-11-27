@@ -40,7 +40,7 @@ resource "aws_lb_target_group" "gwlb_nids_tg" {
 resource "aws_lb_target_group_attachment" "gwlb_tg_attachment" {
 
   target_group_arn = aws_lb_target_group.gwlb_nids_tg.arn
-  target_id        = aws_instance.dummy_nids.private_ip
+  target_id        = aws_instance.ids.private_ip
 }
 
 resource "aws_vpc_endpoint_service" "gwlb" {

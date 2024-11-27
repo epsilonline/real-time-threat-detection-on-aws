@@ -1,7 +1,7 @@
 ######################################
 # GWLB Tun
 ######################################
-resource "aws_instance" "dummy_nids" {
+resource "aws_instance" "ids" {
 
   ami                     = data.aws_ami.al2023.id
   iam_instance_profile    = aws_iam_role.ec2_gwlbtun.name
@@ -12,7 +12,7 @@ resource "aws_instance" "dummy_nids" {
   monitoring              = true
   source_dest_check       = true
 
-  vpc_security_group_ids = [aws_security_group.dummy_nids.id]
+  vpc_security_group_ids = [aws_security_group.ids.id]
 
 
   subnet_id = element(module.security_vpc.private_subnets, 0)
@@ -104,7 +104,7 @@ resource "aws_instance" "dummy_nids" {
     iops                  = 3000
   }
 
-  tags = merge({ "Name" : "${var.resource_name_prefix}-dummy-nids" }, var.extra_ec2_tags)
+  tags = merge({ "Name" : "${var.resource_name_prefix}-ids" }, var.extra_ec2_tags)
 
   lifecycle {
     ignore_changes = [ami]
@@ -112,11 +112,10 @@ resource "aws_instance" "dummy_nids" {
 }
 
 
-
-resource "aws_security_group" "dummy_nids" {
-  description = "Dummy NIDS security group"
+resource "aws_security_group" "ids" {
+  description = "IDS security group"
   vpc_id      = module.security_vpc.vpc_id
-  name        = "${var.resource_name_prefix}-dummy-nids"
+  name        = "${var.resource_name_prefix}-ids"
 }
 
 resource "aws_security_group_rule" "data_ingress_udp" {
@@ -125,7 +124,7 @@ resource "aws_security_group_rule" "data_ingress_udp" {
   protocol          = "UDP"
   to_port           = 6081
   from_port         = 6081
-  security_group_id = aws_security_group.dummy_nids.id
+  security_group_id = aws_security_group.ids.id
 
   description = "Allow traffic inspection"
 }
@@ -136,7 +135,7 @@ resource "aws_security_group_rule" "data_ingress_tcp" {
   protocol          = "TCP"
   to_port           = 80
   from_port         = 80
-  security_group_id = aws_security_group.dummy_nids.id
+  security_group_id = aws_security_group.ids.id
 
   description = "Allow healthcheck from gwlb"
 }
@@ -147,7 +146,7 @@ resource "aws_security_group_rule" "https_egress" {
   protocol          = "TCP"
   to_port           = 443
   from_port         = 443
-  security_group_id = aws_security_group.dummy_nids.id
+  security_group_id = aws_security_group.ids.id
 
   description = "Allow packages download"
 }
@@ -158,7 +157,7 @@ resource "aws_security_group_rule" "udp_egress" {
   protocol          = "UDP"
   to_port           = 65535
   from_port         = 0
-  security_group_id = aws_security_group.dummy_nids.id
+  security_group_id = aws_security_group.ids.id
 
   description = "Allow egress traffic to gwlb"
 }
@@ -172,8 +171,8 @@ resource "aws_security_group_rule" "wazuh_agent_from_nlb_ingress" {
 
   from_port                = each.key
   to_port                  = each.key
-  security_group_id        = aws_security_group.dummy_nids.id
-  source_security_group_id = aws_security_group.ids_nlb.id
+  security_group_id        = aws_security_group.ids.id
+  source_security_group_id = aws_security_group.hids_nlb.id
 
 
   description = "Allow connection from nlb on wazuh agent ports"

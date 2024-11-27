@@ -67,8 +67,8 @@ resource "aws_iam_policy" "wazuh_s3" {
             "s3:ListBucket"
           ],
           "Resource" : [
-            "${aws_s3_bucket.wazuh.arn}/*",
-            aws_s3_bucket.wazuh.arn
+            "${aws_s3_bucket.wazuh_cloudtrail.arn}/*",
+            aws_s3_bucket.wazuh_cloudtrail.arn
           ]
         }
       ]

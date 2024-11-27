@@ -153,33 +153,33 @@ resource "aws_vpc_endpoint_connection_accepter" "main_vpc_inspection_endpoint" {
 # Wazuh agent endpoint
 ######################################
 
-resource "aws_vpc_endpoint" "main_vpc_ids_endpoint" {
+resource "aws_vpc_endpoint" "main_vpc_hids_endpoint" {
 
   vpc_id              = module.main_vpc.vpc_id
-  service_name        = aws_vpc_endpoint_service.ids.service_name
-  vpc_endpoint_type   = aws_vpc_endpoint_service.ids.service_type
+  service_name        = aws_vpc_endpoint_service.hids.service_name
+  vpc_endpoint_type   = aws_vpc_endpoint_service.hids.service_type
   private_dns_enabled = false
 
   subnet_ids = [module.main_vpc.public_subnets[0]]
   tags = {
-    Name    = "${var.resource_name_prefix}-ids-inspection"
+    Name    = "${var.resource_name_prefix}-HIDS-inspection"
     VpcName = local.main_vpc_name
   }
 }
 
 resource "aws_vpc_endpoint_connection_accepter" "main_vpc_ids_inspection_endpoint" {
-  vpc_endpoint_service_id = aws_vpc_endpoint_service.ids.id
-  vpc_endpoint_id         = aws_vpc_endpoint.main_vpc_ids_endpoint.id
+  vpc_endpoint_service_id = aws_vpc_endpoint_service.hids.id
+  vpc_endpoint_id         = aws_vpc_endpoint.main_vpc_hids_endpoint.id
 }
 
 
-resource "aws_security_group" "ids_vpc_endpoint" {
+resource "aws_security_group" "hids_vpc_endpoint" {
   description = "Security group for ids vpc endpoint"
   vpc_id      = module.main_vpc.vpc_id
-  name        = "${var.resource_name_prefix}-ids-vpc-endpoint"
+  name        = "${var.resource_name_prefix}-HIDS-vpc-endpoint"
 }
 
-resource "aws_security_group_rule" "ids_vpc_endpoint_ingress" {
+resource "aws_security_group_rule" "hids_vpc_endpoint_ingress" {
   for_each = toset(local.wazuh_ports)
 
   type     = "ingress"
@@ -188,13 +188,13 @@ resource "aws_security_group_rule" "ids_vpc_endpoint_ingress" {
   from_port                = each.key
   to_port                  = each.key
   source_security_group_id = aws_security_group.monitored_instances.id
-  security_group_id        = aws_security_group.ids_vpc_endpoint.id
+  security_group_id        = aws_security_group.hids_vpc_endpoint.id
 
   description = "Allow agent connection from monitored instances"
 }
 
 
 resource "aws_vpc_endpoint_security_group_association" "ids_vpc_endpoint" {
-  vpc_endpoint_id   = aws_vpc_endpoint.main_vpc_ids_endpoint.id
-  security_group_id = aws_security_group.ids_vpc_endpoint.id
+  vpc_endpoint_id   = aws_vpc_endpoint.main_vpc_hids_endpoint.id
+  security_group_id = aws_security_group.hids_vpc_endpoint.id
 }

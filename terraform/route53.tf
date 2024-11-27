@@ -16,8 +16,8 @@ resource "aws_route53_record" "wazuh_host" {
   type    = "A"
 
   alias {
-    name                   = aws_vpc_endpoint.main_vpc_ids_endpoint.dns_entry[0].dns_name
-    zone_id                = aws_vpc_endpoint.main_vpc_ids_endpoint.dns_entry[0].hosted_zone_id
+    name                   = aws_vpc_endpoint.main_vpc_hids_endpoint.dns_entry[0].dns_name
+    zone_id                = aws_vpc_endpoint.main_vpc_hids_endpoint.dns_entry[0].hosted_zone_id
     evaluate_target_health = true
   }
 }
