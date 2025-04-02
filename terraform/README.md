@@ -20,7 +20,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_guardduty_antimalware"></a> [guardduty\_antimalware](#module\_guardduty\_antimalware) | /home/jiin995/work/terraform-modules/terraform-aws-guardduty-malware-protection-for-s3 | n/a |
+| <a name="module_guardduty_antimalware"></a> [guardduty\_antimalware](#module\_guardduty\_antimalware) | epsilonline/guardduty-malware-protection-for-s3/aws | 0.0.1 |
 | <a name="module_main_vpc"></a> [main\_vpc](#module\_main\_vpc) | terraform-aws-modules/vpc/aws | 5.16.0 |
 | <a name="module_security_vpc"></a> [security\_vpc](#module\_security\_vpc) | terraform-aws-modules/vpc/aws | 5.16.0 |
 

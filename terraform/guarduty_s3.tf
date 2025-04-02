@@ -1,5 +1,6 @@
 module "guardduty_antimalware" {
-  source = "/home/jiin995/work/terraform-modules/terraform-aws-guardduty-malware-protection-for-s3"
+  source  = "epsilonline/guardduty-malware-protection-for-s3/aws"
+  version = "0.0.1"
 
   name_prefix = var.resource_name_prefix
 
