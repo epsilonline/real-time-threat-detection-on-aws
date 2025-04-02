@@ -32,14 +32,16 @@ provider "aws" {
 ######################################
 
 locals {
-  security_vpc_name    = "${var.resource_name_prefix}-security-vpc"
-  main_vpc_name        = "${var.resource_name_prefix}-main-vpc"
-  protected_subnets    = [for subnet in aws_subnet.protected_subnet : subnet]
-  trail_name           = "${var.resource_name_prefix}-wazuh-trail"
-  wazuh_bucket_name    = "${var.resource_name_prefix}-wazuh-${random_string.random.result}"
-  gwlbtun_bucket_name  = "${var.resource_name_prefix}-gwlb-${random_string.random.result}"
-  gwlbtub_scripts_path = "${path.module}/../scripts"
-  wazuh_ports          = ["1514", "1515", "1516", "514"]
+  security_vpc_name            = "${var.resource_name_prefix}-security-vpc"
+  main_vpc_name                = "${var.resource_name_prefix}-main-vpc"
+  protected_subnets            = [for subnet in aws_subnet.protected_subnet : subnet]
+  trail_name                   = "${var.resource_name_prefix}-wazuh-trail"
+  wazuh_bucket_name            = "${var.resource_name_prefix}-wazuh-${random_string.random.result}"
+  gwlbtun_bucket_name          = "${var.resource_name_prefix}-gwlb-${random_string.random.result}"
+  gwlbtub_scripts_path         = "${path.module}/../scripts"
+  staging_bucketav_bucket_name = "${var.resource_name_prefix}-staging-${random_string.random.result}"
+  clean_bucket_name            = "${var.resource_name_prefix}-clean"
+  wazuh_ports                  = ["1514", "1515", "1516", "514"]
 }
 
 ######################################

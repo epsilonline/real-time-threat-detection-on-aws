@@ -28,3 +28,4 @@ security_vpc_cfg = {
 }
 
 monitored_instances = 2
+enable_bucket_av    = false

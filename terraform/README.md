@@ -20,6 +20,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_guardduty_antimalware"></a> [guardduty\_antimalware](#module\_guardduty\_antimalware) | /home/jiin995/work/terraform-modules/terraform-aws-guardduty-malware-protection-for-s3 | n/a |
 | <a name="module_main_vpc"></a> [main\_vpc](#module\_main\_vpc) | terraform-aws-modules/vpc/aws | 5.16.0 |
 | <a name="module_security_vpc"></a> [security\_vpc](#module\_security\_vpc) | terraform-aws-modules/vpc/aws | 5.16.0 |
 
@@ -27,6 +28,8 @@
 
 | Name | Type |
 |------|------|
+| [aws_cloudformation_stack.bucket_av](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/cloudformation_stack) | resource |
+| [aws_cloudformation_stack.bucketav_add_on_move_clean](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/cloudformation_stack) | resource |
 | [aws_cloudtrail.trail](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/cloudtrail) | resource |
 | [aws_eip.main](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/eip) | resource |
 | [aws_guardduty_detector.this](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/guardduty_detector) | resource |
@@ -66,7 +69,9 @@
 | [aws_route_table.protected_subnets](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/route_table) | resource |
 | [aws_route_table_association.inbound_inspection](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/route_table_association) | resource |
 | [aws_route_table_association.rt_association](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/route_table_association) | resource |
+| [aws_s3_bucket.clean_bucket](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.gwlbtun](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket.staging_bucketav](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.wazuh_cloudtrail](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_policy.allow_trail_access](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_object.gwlbtub_scripts](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/s3_object) | resource |
@@ -104,6 +109,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_enable_bucket_av"></a> [enable\_bucket\_av](#input\_enable\_bucket\_av) | Enable bucket AV | `bool` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | `"demo"` | no |
 | <a name="input_extra_ec2_tags"></a> [extra\_ec2\_tags](#input\_extra\_ec2\_tags) | n/a | `map(string)` | n/a | yes |
 | <a name="input_main_vpc_cfg"></a> [main\_vpc\_cfg](#input\_main\_vpc\_cfg) | n/a | <pre>object({<br>    azs               = list(string),<br>    cidr              = string<br>    private_subnets   = list(string)<br>    protected_subnets = list(string)<br>    public_subnets    = list(string)<br>  })</pre> | n/a | yes |

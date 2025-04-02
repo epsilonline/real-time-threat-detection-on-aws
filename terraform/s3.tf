@@ -84,3 +84,27 @@ resource "aws_s3_object" "gwlbtub_scripts" {
 
   etag = filemd5("${local.gwlbtub_scripts_path}/${each.value}")
 }
+
+######################################
+# Destination bucket
+######################################
+
+resource "aws_s3_bucket" "clean_bucket" {
+  bucket = local.clean_bucket_name
+
+  tags = {
+    Name = local.clean_bucket_name
+  }
+}
+
+######################################
+# Destination bucket
+######################################
+
+resource "aws_s3_bucket" "staging_bucketav" {
+  bucket = local.staging_bucketav_bucket_name
+
+  tags = {
+    Name = local.clean_bucket_name
+  }
+}

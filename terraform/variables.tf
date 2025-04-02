@@ -58,3 +58,12 @@ variable "monitored_instances" {
   type        = number
   description = "Number of monitored instances"
 }
+
+#######################################
+# BucketAV
+#######################################
+
+variable "enable_bucket_av" {
+  type        = bool
+  description = "Enable bucket AV"
+}
