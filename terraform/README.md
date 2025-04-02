@@ -126,6 +126,9 @@
 
 | Name | Description |
 |------|-------------|
+| <a name="output_monitered_ec2_instance_ids"></a> [monitered\_ec2\_instance\_ids](#output\_monitered\_ec2\_instance\_ids) | n/a |
+| <a name="output_monitered_ec2_instances_access"></a> [monitered\_ec2\_instances\_access](#output\_monitered\_ec2\_instances\_access) | n/a |
+| <a name="output_wazuh_access"></a> [wazuh\_access](#output\_wazuh\_access) | n/a |
 | <a name="output_wazuh_dashboard_access"></a> [wazuh\_dashboard\_access](#output\_wazuh\_dashboard\_access) | n/a |
 | <a name="output_wazuh_host_fqdn"></a> [wazuh\_host\_fqdn](#output\_wazuh\_host\_fqdn) | n/a |
 | <a name="output_wazuh_trail_bucket"></a> [wazuh\_trail\_bucket](#output\_wazuh\_trail\_bucket) | n/a |
