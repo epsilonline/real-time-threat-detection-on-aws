@@ -44,6 +44,18 @@ resource "aws_security_group" "monitored_instances" {
   name        = "${var.resource_name_prefix}-monitored-instances"
 }
 
+resource "aws_security_group_rule" "monitored_ingress_ssh" {
+  type              = "ingress"
+  cidr_blocks       = ["0.0.0.0/0"]
+  protocol          = "-1"
+  to_port           = 22
+  from_port         = 22
+  security_group_id = aws_security_group.monitored_instances.id
+
+  description = "Allow all egress"
+}
+
+
 resource "aws_security_group_rule" "monitored_egress" {
   type              = "egress"
   cidr_blocks       = ["0.0.0.0/0"]

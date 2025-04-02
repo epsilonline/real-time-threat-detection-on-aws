@@ -88,6 +88,7 @@
 | [aws_security_group_rule.hids_vpc_endpoint_ingress](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.https_egress](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.monitored_egress](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.monitored_ingress_ssh](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.udp_egress](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group_rule) | resource |
 | [aws_security_group_rule.wazuh_agent_from_nlb_ingress](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/security_group_rule) | resource |
 | [aws_securityhub_account.account](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/securityhub_account) | resource |
