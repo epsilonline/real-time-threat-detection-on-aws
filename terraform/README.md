@@ -47,6 +47,8 @@
 | [aws_iam_role_policy_attachment.iam_policy_wazuh_ec2_ssm_policy](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.ids_wazuh_s3](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.wazuh_s3](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_user.wazuh_user](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_user) | resource |
+| [aws_iam_user_policy_attachment.wazuh_user_ReadOnly](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/iam_user_policy_attachment) | resource |
 | [aws_inspector2_enabler.this](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/inspector2_enabler) | resource |
 | [aws_instance.ids](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/instance) | resource |
 | [aws_instance.monitored](https://registry.terraform.io/providers/hashicorp/aws/5.76.0/docs/resources/instance) | resource |

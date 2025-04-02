@@ -151,3 +151,15 @@ resource "aws_iam_role_policy_attachment" "ids_wazuh_s3" {
   role       = aws_iam_role.ec2_gwlbtun.name
   policy_arn = aws_iam_policy.wazuh_s3.arn
 }
+
+#######################################
+#
+######################################
+resource "aws_iam_user" "wazuh_user" {
+  name = "${var.resource_name_prefix}-wazuh-user"
+}
+
+resource "aws_iam_user_policy_attachment" "wazuh_user_ReadOnly" {
+  user       = aws_iam_user.wazuh_user.name
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
