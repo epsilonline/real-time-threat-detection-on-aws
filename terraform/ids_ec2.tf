@@ -38,6 +38,11 @@ resource "aws_instance" "ids" {
         cloud_final_modules:
         - [scripts-user, always]
         --//
+        Content-Type: text/x-shellscript; charset="us-ascii"
+        MIME-Version: 1.0
+        Content-Transfer-Encoding: 7bit
+        Content-Disposition: attachment; filename="userdata.txt"
+
         #!/bin/bash -ex
 
           ######################################
@@ -48,6 +53,10 @@ resource "aws_instance" "ids" {
           yum -y install cmake3
           yum -y install tc || true
           yum -y install iproute-tc || true
+          cd /home/ec2-user
+          wget https://archives.boost.io/release/1.87.0/source/boost_1_87_0.tar.gz
+          tar -xzvf  boost_1_87_0.tar.gz
+          mv boost_1_87_0 boost
           cd /root
           git clone https://github.com/aws-samples/aws-gateway-load-balancer-tunnel-handler.git
           cd aws-gateway-load-balancer-tunnel-handler
@@ -56,6 +65,7 @@ resource "aws_instance" "ids" {
 
           aws s3 sync s3://${aws_s3_bucket.gwlbtun.id}/ example-scripts/
           chmod +x -R example-scripts/*.sh
+          export PATH=$PATH:/root/aws-gateway-load-balancer-tunnel-handler/examples-scripts/
 
           echo "[Unit]" > /usr/lib/systemd/system/gwlbtun.service
           echo "Description=AWS GWLB Tunnel Handler" >> /usr/lib/systemd/system/gwlbtun.service
@@ -96,9 +106,11 @@ resource "aws_instance" "ids" {
           ######################################
           # Suricata
           ######################################
+          cd /root
           yum install -y pcre2-devel libyaml-devel jansson-devel libpcap-devel rustc cargo
           wget -O suricata.tar.gz https://www.openinfosecfoundation.org/download/suricata-7.0.7.tar.gz
-          tar xzvf suricata.tar.gz -C suricata
+          tar xzvf suricata.tar.gz
+          mv suricata-* suricata
           cd suricata
           ./configure
           make
@@ -107,6 +119,7 @@ resource "aws_instance" "ids" {
           mkdir -p /etc/suricata/
           mv suricata/suricata.yaml /etc/suricata/suricata.yaml
           mkdir /var/log/suricata/
+          mkdir -p /usr/local/var/log/suricata/
 
           cd /tmp/ && curl -LO https://rules.emergingthreats.net/open/suricata-6.0.8/emerging.rules.tar.gz
           sudo tar -xvzf emerging.rules.tar.gz && sudo mkdir /etc/suricata/rules && sudo mv rules/*.rules /etc/suricata/rules/
@@ -116,7 +129,7 @@ resource "aws_instance" "ids" {
           echo "Description=Suricata" >> /usr/lib/systemd/system/suricata.service
           echo "" >> /usr/lib/systemd/system/suricata.service
           echo "[Service]" >> /usr/lib/systemd/system/suricata.service
-          echo "ExecStart=/usr/local/bin/suricata -i ens5 -c /etc/suricata/suricata.yaml" >>
+          echo "ExecStart=/usr/local/bin/suricata -i ens5 -c /etc/suricata/suricata.yaml" >> /usr/lib/systemd/system/suricata.service
           echo "Restart=always" >> /usr/lib/systemd/system/suricata.service
           echo "RestartSec=5s" >> /usr/lib/systemd/system/suricata.service
           echo "[Install]" >> /usr/lib/systemd/system/suricata.service
@@ -126,8 +139,6 @@ resource "aws_instance" "ids" {
           systemctl enable --now --no-block suricata.service
           systemctl start suricata.service
 
-
-          echo
           --//--
         EOF
   )
@@ -136,6 +147,7 @@ resource "aws_instance" "ids" {
     delete_on_termination = true
     volume_type           = "gp3"
     iops                  = 3000
+    volume_size           = 80
   }
 
   tags = merge({ "Name" : "${var.resource_name_prefix}-ids" }, var.extra_ec2_tags)
